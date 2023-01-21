@@ -2,9 +2,16 @@ package com.board.novaapi.Repository;
 
 
 import com.board.novaapi.Entity.Member.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository {
+import java.util.Optional;
 
-    void save(Member member);
-    Member findById(Long studentId);
+public interface MemberRepository extends JpaRepository<Member, Long> {
+
+
+    Optional<Member> save(Member member);
+
+    Optional<Member> findByStudentId(String studentId);
+
+    boolean existsByStudentId(String studentId);
 }
