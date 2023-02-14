@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor // 기본생성자
-@AllArgsConstructor // 모든 필드를 매개변수로 하는 생성자
+// @AllArgsConstructor // 모든 필드를 매개변수로 하는 생성자
 public class PostDto {
     private Long id;
     private String title;
@@ -22,6 +22,17 @@ public class PostDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
+    private Integer previouspage;
+
+
+    public PostDto(Long id, String title, String content, TagState tag, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.tag = tag;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+    }
 
     //entitiy -> dto
     public static PostDto toPostDto(Post post)

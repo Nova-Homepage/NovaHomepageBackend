@@ -37,7 +37,7 @@ public class Post extends BaseTimeEntity{ //자바에서 상속받은 부모 클
         Post post = new Post();
         post.setTag(postDto.getTag());
         post.setContent(postDto.getContent());
-        post.setTitle(postDto.getContent());
+        post.setTitle(postDto.getTitle());
 
         return post;
 
