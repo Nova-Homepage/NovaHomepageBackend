@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.8'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'Nova'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //jpa
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'junit:junit:4.13.1'//web start
+	compileOnly 'org.projectlombok:lombok' //Lombok
+	runtimeOnly 'com.h2database:h2' //h2
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-validation' //@Valid를 사용하기 위해서 사용 -> 객체에 들어올때 자동으로 type 검증을 진행해준다.
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6' //콘솔로 sql문을 확인할 수 있다.
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
