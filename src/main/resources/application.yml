@@ -36,20 +36,20 @@ spring:
               - user:email
               - read:user
 
-# cors ??
+# cors
 cors:
   allowed-origins: 'http://localhost:3000'
   allowed-methods: GET,POST,PUT,DELETE,OPTIONS
   allowed-headers: '*'
   max-age: 3600
 
-# jwt secret key ??
-jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+# jwt secret key
+jwt.secret: 'Tm92YUJhY2tFbmREZXZlbG9wQnlEb3VibGUwNEo='
 
-# ?? ?? secret Key ? RedirectUri ??
+#secret Key , RedirectUri
 app:
   auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenSecret: 716F96D90030GG58429D2751AC1AACCC
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
