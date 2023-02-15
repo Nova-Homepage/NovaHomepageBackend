@@ -22,7 +22,7 @@ spring:
         registration:
           google:
             clientId: 252430250231-hh9kopaiimqivoiue5de0ss1r0m86d42.apps.googleusercontent.com
-            clientSecret: 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
+            clientSecret: secret
             redirectUri: http://localhost:8081/oauth2/callback/google
             scope:
               - email
@@ -30,7 +30,7 @@ spring:
 
           github:
             clientId: 6498400b6a53f7ec2908
-            clientSecret: 807af19cc878a09baa7e81a2e5e840169a75a5d7
+            clientSecret: secret
             redirectUri: http://localhost:8081/oauth2/callback/github
             scope:
               - user:email
