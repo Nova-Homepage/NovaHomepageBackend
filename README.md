@@ -1,5 +1,11 @@
 # NovaHomepageBackend
 Nova홈페이지 백엔드 코드입니다.
+
+- spring 2.5.5
+- spring security 5
+- mysql 8.0.28
+- gradle
+
 <h1>20230215 현재까지 구현된 NovaBackEnd 기능 및 설명</h1>  
 
 demo 의 서버 포트 8081
