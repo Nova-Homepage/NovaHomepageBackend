@@ -40,14 +40,14 @@ access token을 발급받아야합니다.
 권한없음 에러.</br>
 Full authentication is required to access this resource 에러가 발생합니다.
 
-<b><p style="font-size: 12px">** guest 가 접근 가능한 리소스는 permitAll 로써 모든 사람이 접근 가능합니다.
+<b><p style="font-size: 12px">** guest 가 접근 가능한 리소스는 permitAll 로써 모든 사람이 접근 가능합니다.</p></b>
 
 
 <h3>3. 처음 로그인 할 경우 저장되는 내용 설명</h3>
 
 처음 로그인 한 경우 회원의 이름과 이메일, 등록일, 권한, 프로필 이미지 등의  데이터가 데이터베이스에 저장됩니다.</BR></BR>
 처음 로그인 한 경우 모든 권한은 GUEST 권한을 갖습니다.</BR></BR>
-GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 접근할 수 없습니다.</p></b>
+GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 접근할 수 없습니다.
 
 
 <h2> 추후 추가될 기능은 아래와 같습니다. </h2>
