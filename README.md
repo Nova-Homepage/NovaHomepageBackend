@@ -30,16 +30,16 @@ OAuth2를 이용한 로그인 후 access token을 발급받아야합니다. </br
 > <img src="src/main/resources/pic/token_info.PNG">
 
 ***
-<h3>2. 권한 별 접근 가능한 리소스</h3></br></br>
->- GUEST -> localhost:8081/auth/guest/**</br>
->- USER -> localhost:8081/auth/user/**</br>
->- ADMIN -> localhost:8081/auth/admin/**</br>
+<h3>2. 권한 별 접근 가능한 리소스</h3>
+- GUEST -> localhost:8081/auth/guest/**</br></br>
+- USER -> localhost:8081/auth/user/**</br></br>
+- ADMIN -> localhost:8081/auth/admin/**</br></br>
 
-권한이 없는 리소스에 접근하였을 경우 </br>
+권한이 없는 리소스에 접근하였을 경우 
 권한없음 에러.</br>
 Full authentication is required to access this resource 에러가 발생합니다.</br>
 
-<b><p style="font-size: 12px">** guest 가 접근 가능한 리소스는 permitAll 로써 모든 사람이 접근 가능합니다.</p></b></BR></BR>
+<b><p style="font-size: 12px">** guest 가 접근 가능한 리소스는 permitAll 로써 모든 사람이 접근 가능합니다.</p></b>
 
 ***
 <h3>3. 처음 로그인 할 경우 저장되는 내용 설명</h3>
