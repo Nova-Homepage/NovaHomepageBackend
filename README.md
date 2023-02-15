@@ -32,9 +32,9 @@ access token을 발급받아야합니다.
 > <img src="src/main/resources/pic/token_info.PNG">
 
 <h3>2. 권한 별 접근 가능한 리소스</h3>
->- GUEST -> localhost:8081/auth/guest/**
->- USER -> localhost:8081/auth/user/**
->- ADMIN -> localhost:8081/auth/admin/**
+>- GUEST -> localhost:8081/auth/guest/**</br>
+>- USER -> localhost:8081/auth/user/**</br>
+>- ADMIN -> localhost:8081/auth/admin/**</br>
 
 권한이 없는 리소스에 접근하였을 경우 </br>
 권한없음 에러.</br>
