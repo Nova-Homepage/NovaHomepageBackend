@@ -2,33 +2,55 @@ package Nova.Post.controller;
 
 import Nova.Post.Dto.PostDto;
 import Nova.Post.Dto.PagingDto;
+import Nova.Post.domain.FileEntity;
+import Nova.Post.domain.Post;
+import Nova.Post.service.LocalService;
 import Nova.Post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RequiredArgsConstructor //생성자 생성과 의존관계를 진행해줌
 @RequestMapping("/post") //해당 컨트롤러에서 /post를 가장 앞 uri에 위치시킨다.
+@Transactional
 @RestController
 public class PostController {
 
     private final PostService postService;
+    private final LocalService localService;
 
     //글쓰기
-    @GetMapping("/save")
-    public String Save()
-    {
-        return "save";
-    }
-    @PostMapping("/save")
-    public String createPost(@RequestBody @Valid PostDto postDto)
-    {
-        postService.save(postDto);
+    @PostMapping(value = "/save" , consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
+    public String createPost(@RequestPart PostDto postDto, @RequestPart(value = "files",required = false) List<MultipartFile> files) throws IOException {
+        if(files.isEmpty())
+        { //파일이 없을대
+            postService.save(postDto);
+        }
+        else {
+            //첨부파일이 있을때
+            Post save = postService.save(postDto);
+            localService.uploadfile(files,save);
+
+        }
         return "게시글 생성";
     }
 
@@ -76,26 +98,44 @@ public class PostController {
     //게시글 페이징
     //   post/paging?page=1   //기본적으로 1페이지를 주겠다
     @GetMapping("/paging")
-    public PagingDto paging(@PageableDefault(page = 1)Pageable pageable) //@requestparam을 이용해도 된다.
+    public Page<PostDto> paging(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable)
     {
-//        pageable.getPageNumber(); //어떤 페이지가 요청이 되었나
-        Page<PostDto> postList = postService.paging(pageable);
-        int blockLimit = 3; //밑에 보여지는 페이지 번호 개수
-        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-        int endPage = ((startPage + blockLimit - 1) < postList.getTotalPages()) ? startPage + blockLimit - 1 : postList.getTotalPages(); //3 6 9 12..
-        //page 갯수가 20개 라면
-        //현재 사용자가 3 페이지
-        //1 2 3
-        //현재 사용자가 7페이지
-        //7 8 9
-        // 보여지는 페이지 갯수 3개
-        // 총 페이지 갯수가 8개 라면
-        PagingDto pagingDto = new PagingDto();
-        pagingDto.setPostlist(postList);
-        pagingDto.setStartPage(startPage);
-        pagingDto.setEndPage(endPage);
+        return postService.paging(pageable);
+    }
 
-        return pagingDto;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
+    //파일 서비스
+    @GetMapping("/images/{fileId}")
+    public String downloadImage(@PathVariable("fileId") Long id) throws IOException{
+
+
+        String aa = "<img src=\""+localService.downloadImage(id).getFile() + "\">";
+        return aa;
+//        return localService.downloadImage(id);
+    }
+
+    @GetMapping("/image/all")
+    public List<FileEntity> findfileAll()
+    {
+        return localService.findAll();
+    }
+    // 첨부 파일 다운로드
+    @GetMapping("/attach/{id}")
+    public ResponseEntity<Resource> downloadAttach(@PathVariable Long id) throws MalformedURLException {
+
+        FileEntity file = localService.findById(id);
+
+        UrlResource resource = new UrlResource("file:" + file.getFile_path());
+
+        String encodedFileName = UriUtils.encode(file.getOriginalFileName(), StandardCharsets.UTF_8);
+
+        // 파일 다운로드 대화상자가 뜨도록 하는 헤더를 설정해주는 것
+        // Content-Disposition 헤더에 attachment; filename="업로드 파일명" 값을 준다.
+        String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,contentDisposition).body(resource);
     }
 
 }

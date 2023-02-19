@@ -4,6 +4,7 @@ import Nova.Post.domain.Post;
 import Nova.Post.domain.TagState;
 import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -24,7 +25,6 @@ public class PostDto {
 
     private Integer previouspage;
 
-
     public PostDto(Long id, String title, String content, TagState tag, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.title = title;
@@ -44,7 +44,6 @@ public class PostDto {
         postDto.setTitle(post.getTitle());
         postDto.setCreatedDate(post.getCreatedDate());
         postDto.setModifiedDate(post.getModifiedDate());
-
 
         return postDto;
     }

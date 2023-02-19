@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 //DTO (Data Transfer Object) 데이터 전송 객체 -> Entity를 가리는것 같다.
 @Entity
 @Getter @Setter
@@ -19,7 +18,7 @@ import java.time.LocalDateTime;
 public class Post extends BaseTimeEntity{ //자바에서 상속받은 부모 클래스도 JPA에서는 한 객체로 인식해서 DATA 테이블에 넣어줌
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto_increment
-    @Column(name = "post_id")
+    @Column(name ="post_id")
     private Long id;
 
     @Column
@@ -30,6 +29,10 @@ public class Post extends BaseTimeEntity{ //자바에서 상속받은 부모 클
 
     @Enumerated(EnumType.STRING) //DB에 저장되는 방식인듯
     private TagState tag;
+
+    @OneToMany(mappedBy ="post", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FileEntity> FileEntityList = new ArrayList<>(); //여러개가 올수 있도록 참조관계 설정 -> db에 저장되는건 아님
+
 
     //entitiy -> dto
     public static Post toSaveEntity(PostDto postDto)

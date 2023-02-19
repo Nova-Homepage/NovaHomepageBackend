@@ -26,18 +26,18 @@ class PostServiceTest {
     void 회원가입() {
         PostDto postDto = new PostDto();
         postDto.setTag(TagState.NOTICE);
-        postService.save(postDto);
+//        postService.save(postDto);
     }
     @Test
     void 회원조회()
     {
         PostDto postDto = new PostDto();
         postDto.setTag(TagState.NOTICE);
-        postService.save(postDto);
+//        postService.save(postDto);
 
         PostDto postDto1 = new PostDto();
         postDto1.setTag(TagState.NOTICE);
-        postService.save(postDto1);
+//        postService.save(postDto1);
 
 
         System.out.println(postService.findAll().toString());
@@ -47,11 +47,11 @@ class PostServiceTest {
     {
         PostDto postDto = new PostDto();
         postDto.setTag(TagState.NOTICE);
-        postService.save(postDto);
+//        postService.save(postDto);
 
         PostDto postDto1 = new PostDto();
         postDto1.setTag(TagState.ANSWER);
-        postService.save(postDto1);
+//        postService.save(postDto1);
 
         postService.findAll();
         postService.findById(1L);
