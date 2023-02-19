@@ -6,8 +6,11 @@ import com.board.novaapi.entity.user.User;
 import com.board.novaapi.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +26,19 @@ public class UserService {
     }
 
     // userid, username, roletype 만을 제공 (권한 변경에 필수적인 사항만)
-    public List<String> getAllUserNameAndRoleType(){
-        return userRepository.getAllSimpleMemberInfo();
+    // json 형태로 제공
+    // paging 기능 제공해야함.
+    @Transactional
+    public Map<String, Object> getAllSimpleMemberInfo(){
+        Map<String, Object> result = new HashMap<>();
+        List<User> user = userRepository.findAll();
+
+        user.stream().forEach(user1 -> {
+            result.put("userId",user1.getUserId());
+            result.put("username",user1.getUsername());
+            result.put("roleType",user1.getRoleType());
+        });
+        return result;
     }
 
     //

@@ -22,8 +22,8 @@ public class AuthController {
     //유저 검색기능 있어야함.
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/memberrtype")
-    public List<String> getAllSimpleMemberInfo(){
-        return userRepository.getAllSimpleMemberInfo();
+    public Map<String,Object> getAllSimpleMemberInfo(){
+        return userService.getAllSimpleMemberInfo();
     }
 
     // 유저 아이디, 유저 권한타입

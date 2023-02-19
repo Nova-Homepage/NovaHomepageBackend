@@ -13,6 +13,8 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     public User findByUserId(String userId);
 
+    public List<User> findAll();
+
     @Query(value =
             "select COUNT(user.userId)>0 "+
                     "from User user " +
@@ -20,17 +22,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     )
     public Boolean checkUserIdExist(String userId);
 
-    @Query(value =
-            "select user.userId, user.username, user.roleType " +
-                    "from User user ")
-    public List<String> getAllSimpleMemberInfo();
-
     @Modifying(clearAutomatically = true)
     @Query(value =
             "update User user " +
                     "set user.roleType = :roleType "+
                     "where user.userId = :userId")
-    public void UpdateRoleTypeByuserId(String userId, RoleType roleType);
+    public void UpdateRoleTypeByuserId(String userId,RoleType roleType);
 
     @Query(value =
             "select user.roleType "+
