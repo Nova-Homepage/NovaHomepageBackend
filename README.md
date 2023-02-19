@@ -36,10 +36,19 @@ OAuth2를 이용한 로그인 후 access token을 발급받아야합니다. </br
 > <img src="src/main/resources/pic/token_info.PNG">
 
 ***
-<h3>2. 권한 별 접근 가능한 리소스</h3>
-- GUEST -> localhost:8081/auth/guest/**</br></br>
-- USER -> localhost:8081/auth/user/**</br></br>
-- ADMIN -> localhost:8081/auth/admin/**</br></br>
+<h3>2. 권한 및 권한 별 접근 가능 리소스</h3>
+- 권한은 총 3가지로 구분됩니다.
+- ADMIN, USER, GUEST
+
+각 권한 별로 현재 접근 가능한 리소스는 아래와 같습니다.
+- GUEST 
+>  - localhost:8081/info/guest/**
+- USER 
+>  - localhost:8081/info/user/**
+- ADMIN </br>
+>  - localhost:8081/info/admin/**
+>  - localhost:8081/auth/memberrtype
+>  - localhost:8081/auth/memberrtype/{userId}
 
 권한이 없는 리소스에 접근하였을 경우 
 권한없음 에러.</br>
@@ -60,17 +69,26 @@ Full authentication is required to access this resource 에러가 발생합니�
 GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 접근할 수 없습니다.</BR></BR>
 
 ***
-<h3>4. 관리자 회원 권한 기능 (20230219 추가)</h3>
+<h3>4. 관리자 회원 권한변경 기능 (20230219 추가)</h3>
 
-- 관리자 권한 소유자는 권한 변경을 위한 리소스에 접근 가능합니다.
-- 해당 주소는 아래와 같습니다.
+- 관리자는 멤버 식별을 위한 기본정보를 아래 주소에서 확인할 수 있습니다.
 > http://localhost:8081/auth/memberrtype
 
-- 주소에 접근 한 경우 아래와 같은 JSON 형태의 정보가 반환됩니다.
+- 해당주소로 GET 요청을 할 경우 아래와 같은 JSON 형태의 정보가 반환됩니다.
+> ex)
+> 
 >   "roleType": "ADMIN",  
-    "userId": "114342286",  
+    "userId": "1143422xx",  
     "username": "LEE JEONG JU"  
-  
+
+- 관리자는 멤버 권한 변경을 위한 JSON 형식의 POST 요청을 아래와 주소로 보낼 수 있습니다.
+> ex) 
+> 
+>  http://localhost:8081/auth/memberrtype/{userId}
+> 
+>  { "roleType" : "USER" }
+
+
 ***
 <h2> 추후 추가될 기능은 아래와 같습니다. </h2>
 - 20230225
