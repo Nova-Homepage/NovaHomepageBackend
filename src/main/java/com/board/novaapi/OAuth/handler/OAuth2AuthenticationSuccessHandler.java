@@ -11,6 +11,7 @@ import com.board.novaapi.OAuth.token.AuthToken;
 import com.board.novaapi.OAuth.token.AuthTokenProvider;
 import com.board.novaapi.entity.user.UserRefreshToken;
 import com.board.novaapi.repository.user.UserRefreshTokenRepository;
+import com.board.novaapi.repository.user.UserRepository;
 import com.board.novaapi.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -42,6 +43,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final AuthTokenProvider tokenProvider;
     private final AppProperties appProperties;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final UserRepository userRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
 
     @Override

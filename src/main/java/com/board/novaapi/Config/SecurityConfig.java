@@ -12,6 +12,7 @@ import com.board.novaapi.OAuth.service.CustomOAuth2UserService;
 import com.board.novaapi.OAuth.service.CustomUserDetailsService;
 import com.board.novaapi.OAuth.token.AuthTokenProvider;
 import com.board.novaapi.repository.user.UserRefreshTokenRepository;
+import com.board.novaapi.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -82,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 tokenProvider,
                 appProperties,
                 userRefreshTokenRepository,
+                userRepository,
                 oAuth2AuthorizationRequestBasedOnCookieRepository()
         );
     }
@@ -109,6 +112,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return corsConfigSource;
     }
 
+    // 권한의 계단식 설정이 필요함
+
+
+    //관리자 아이디가 필요한데, 관리자 아이디를 form 로그인으로 메모리에 저장해 두는 것이 어떤가 하는 생각으로 진행 no
+    //관리자 권한을 갖은 토큰을 생성해 주는 것이 가장 best
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -126,10 +135,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/oauth2/**").permitAll()
-                .antMatchers( "/auth/guest/**").hasAnyAuthority(RoleType.GUEST.getCode())
-                .antMatchers( "/auth/user/**").hasAnyAuthority(RoleType.USER.getCode())
-                .antMatchers( "/auth/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                .antMatchers("/oauth2/**","/info/**").permitAll()
+                .antMatchers("/info/user").hasAnyAuthority(RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+                .antMatchers( "/auth/**").hasAnyAuthority(RoleType.ADMIN.getCode())
 
                 .anyRequest().authenticated()
                 .and()

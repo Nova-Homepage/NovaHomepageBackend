@@ -88,6 +88,7 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
+    //처음 생성되는 경우 무조건 roletype을 guest로 설정한다.
     public static UserPrincipal create(User user) {
         return new UserPrincipal(
                 user.getUserId(),
@@ -97,10 +98,47 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         );
     }
 
+    // UserPrincipal create 부분에서 회우너에 대한 토큰 생성을 하는데 영향을 주고 있다
+    // 따라서 해당 부분에서 기존에 등록된 회원의 경우 권한이 있는지 확인해야 하고 그 권한과 관련된 작업을 수행 해야함으로
+    // 전달받은 roletype 에 맞게 생성하도록 한다.
+    public static UserPrincipal create(User user, RoleType roleType) {
+        return new UserPrincipal(
+                user.getUserId(),
+                user.getProviderType(),
+                roleType,
+                Collections.singletonList(new SimpleGrantedAuthority(roleType.getCode()))
+        );
+    }
+
+    // roletype의 경우 roletype 에 맞게 들어와야 하는데, 우리가 주는 값은 string 으로 들어온다 따라서 string 에 해당하는 값을
+    // 타입에 맞게 변경해 주는 작업이 필요하다.
+    private static RoleType toRoleType(String stringRoleType){
+        if (stringRoleType.equals("ADMIN")){
+            return RoleType.ADMIN;
+        }
+        else if(stringRoleType.equals("USER")){
+            return RoleType.USER;
+        }
+        else if(stringRoleType.equals("GUEST")){
+            return RoleType.GUEST;
+        }else{
+            System.out.println("잘못된 RoleType 주입. guest로 초기화");
+            return RoleType.GUEST;
+        }
+    }
+
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
         UserPrincipal userPrincipal = create(user);
         userPrincipal.setAttributes(attributes);
 
+        return userPrincipal;
+    }
+
+    public static UserPrincipal create(User user,String roleType, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = create(user,toRoleType(roleType));
+        System.out.println("해당 함수의 set attribute 값 확인");
+        userPrincipal.setAttributes(attributes);
+        System.out.println(userPrincipal.getAuthorities());
         return userPrincipal;
     }
 }

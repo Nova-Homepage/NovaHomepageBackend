@@ -22,7 +22,7 @@ spring:
         registration:
           google:
             clientId: 252430250231-hh9kopaiimqivoiue5de0ss1r0m86d42.apps.googleusercontent.com
-            clientSecret: secret
+            clientSecret:
             redirectUri: http://localhost:8081/oauth2/callback/google
             scope:
               - email
@@ -30,7 +30,7 @@ spring:
 
           github:
             clientId: 6498400b6a53f7ec2908
-            clientSecret: secret
+            clientSecret:
             redirectUri: http://localhost:8081/oauth2/callback/github
             scope:
               - user:email
@@ -44,12 +44,12 @@ cors:
   max-age: 3600
 
 # jwt secret key
-jwt.secret: 'Tm92YUJhY2tFbmREZXZlbG9wQnlEb3VibGUwNEo='
+jwt.secret:
 
 #secret Key , RedirectUri
 app:
   auth:
-    tokenSecret: 716F96D90030GG58429D2751AC1AACCC
+    tokenSecret:
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:

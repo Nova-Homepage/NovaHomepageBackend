@@ -48,16 +48,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
-                        "Looks like you're signed up with " + providerType +
-                        " account. Please use your " + savedUser.getProviderType() + " account to login."
+                        "이미 등록된 회원입니다. " + providerType +
+                                savedUser.getProviderType() + " 계정으로 로그인 해주세요 "
                 );
             }
+            // 기존에 등록되어 있는 경우 update 실행
+            System.out.println("update 진행중");
             updateUser(savedUser, userInfo);
         } else {
+
+            System.out.println("등록된 회원이 아닙니다.");
             savedUser = createUser(userInfo, providerType);
         }
 
-        return UserPrincipal.create(savedUser, user.getAttributes());
+        return UserPrincipal.create(savedUser, userRepository.getMemberRoleTypeByUserId(userInfo.getId()), user.getAttributes());
     }
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
@@ -77,6 +81,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userRepository.saveAndFlush(user);
     }
 
+    //user update 를 통해서 update 뿐 아니라 최근 접속일 도 확인 할 수 있음
+    // 추후 추가 사항
     private User updateUser(User user, OAuth2UserInfo userInfo) {
         if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
             user.setUsername(userInfo.getName());
