@@ -66,10 +66,12 @@ GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 �
 - 해당 주소는 아래와 같습니다.
 > http://localhost:8081/auth/memberrtype
 
-- 주소에 접근한 관리자는 아래와 같은 형식 userid, username, roletype 이 반환됩니다.
-> "114342286,LEE JEONG JU,GUEST"
+- 주소에 접근 한 경우 아래와 같은 JSON 형태의 정보가 반환됩니다.
+>   "roleType": "ADMIN",  
+    "userId": "114342286",  
+    "username": "LEE JEONG JU"  
+  
 ***
 <h2> 추후 추가될 기능은 아래와 같습니다. </h2>
-- 회원 권한 변경기능 (관리자 페이지) 2023 02 19 
-- 회원 탈퇴기능 2023 02 19 예정</BR></BR>
-- <b>(임시)</b> 게시판 글 작성 및 댓글 작성기능  2023 02 23 예정</BR></BR>
+- 20230225
+- 회원 탈퇴기능 및 게시판 CRUD with spring security
