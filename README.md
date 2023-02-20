@@ -92,7 +92,10 @@ GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 �
 > 
 >  http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/auth/memberrtype/{userId}
 > 
->  { "roleType" : "USER" }
+>- 변경 예시  </BR></BR>
+> <img src="src/main/resources/pic/change_auth1.PNG"> </BR></BR>
+>- 변경 결과  </BR></BR>
+> <img src="src/main/resources/pic/change_auth_result.PNG">
 
 
 ***
