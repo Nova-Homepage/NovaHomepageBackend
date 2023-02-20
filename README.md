@@ -6,12 +6,17 @@ Nova홈페이지 백엔드 코드입니다.
 - mysql 8.0.28
 - gradle
 
+<h3>20230220 기준 사용중인 aws 주소</h3>
+> http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/
+
+** localhost 부분을 위 주소로 대체하면 진행 가능합니다.
+***
 <h1>20230215 현재까지 구현된 NovaBackEnd 기능 및 설명</h1>  
 
 demo 의 서버 포트 8081
 
 <h3> 1. OAuth2를 통한 소셜 로그인 기능 제공</h3>
-OAuth2를 이용한 로그인 후 access token을 발급받아야합니다. </br>
+OAuth2를 이용한 로그인 후 access token을 발급받아야 합니다. </br>
 
 각 로그인을 위한 링크는 아래와 같습니다 </br>
 > localhost:8081/oauth2/authorize/{ 'ProviderId' }
