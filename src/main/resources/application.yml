@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/novadb?allowedPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: root
-    password: root
+    username:
+    password:
 
   jpa:
     database: mysql
@@ -21,7 +21,7 @@ spring:
       client:
         registration:
           google:
-            clientId: 252430250231-hh9kopaiimqivoiue5de0ss1r0m86d42.apps.googleusercontent.com
+            clientId:
             clientSecret:
             redirectUri: http://localhost:8081/oauth2/callback/google
             scope:
@@ -29,7 +29,7 @@ spring:
               - profile
 
           github:
-            clientId: 6498400b6a53f7ec2908
+            clientId:
             clientSecret:
             redirectUri: http://localhost:8081/oauth2/callback/github
             scope:
