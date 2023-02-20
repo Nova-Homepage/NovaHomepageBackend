@@ -19,14 +19,14 @@ demo 의 서버 포트 8081
 OAuth2를 이용한 로그인 후 access token을 발급받아야 합니다. </br>
 
 각 로그인을 위한 링크는 아래와 같습니다 </br>
-> localhost:8081/oauth2/authorize/{ 'ProviderId' }
+> http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/oauth2/authorize/{ 'ProviderId' }
 
 여기서 ProviderId 란 OAuth2 로그인이 가능한 서비스 제공자를 의미합니다.  
 현재 NovaBackEnd 에서 구현된 로그인 서비스의 제공자는 아래와 같습니다.
 
->- github -> localhost:8081/oauth2/authorize/github</br>
+>- github -> http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/oauth2/authorize/github</br>
 
->- google -> localhost:8081/oauth2/authorize/google</br>
+>- google -> http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/oauth2/authorize/google</br>
 
 <b><p style="font-size: 12px">** 위 주소는 서버가 열려있을때 동작합니다. 서버가 열려있지 않다면 동작하지 않습니다.</p></b></br>
 위 주소에서 로그인 할 경우 access token 이 발급됩니다.</br></br>
@@ -47,13 +47,15 @@ OAuth2를 이용한 로그인 후 access token을 발급받아야 합니다. </b
 
 각 권한 별로 현재 접근 가능한 리소스는 아래와 같습니다.
 - GUEST 
->  - localhost:8081/info/guest/**
+>  - http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/info/guest
 - USER 
->  - localhost:8081/info/user/**
-- ADMIN </br>
->  - localhost:8081/info/admin/**
->  - localhost:8081/auth/memberrtype
->  - localhost:8081/auth/memberrtype/{userId}
+>  - http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/info/user
+- ADMIN 
+- (참고 : 2023 02 20 기준 /auth/** 는 개발 편의상 guest 권한으로 접근 가능하게 설정되었습니다.</br></br> 
+- 로그인 후 발급받은 토큰을 이용해 진행 가능합니다.
+>  - http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/info/admin  </br></br>
+>  - http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/auth/memberrtype  </br></br>
+>  - http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/auth/memberrtype/{'userId'}  </br>
 
 권한이 없는 리소스에 접근하였을 경우 
 권한없음 에러.</br>
@@ -77,7 +79,7 @@ GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 �
 <h3>4. 관리자 회원 권한변경 기능 (20230219 추가)</h3>
 
 - 관리자는 멤버 식별을 위한 기본정보를 아래 주소에서 확인할 수 있습니다.
-> http://localhost:8081/auth/memberrtype
+> http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/auth/memberrtype
 
 - 해당주소로 GET 요청을 할 경우 아래와 같은 JSON 형태의 정보가 반환됩니다.
 > ex)
@@ -89,7 +91,7 @@ GUEST 권한을 가진 회원은 USER, 및 ADMIN 권한을 가진 리소스에 �
 - 관리자는 멤버 권한 변경을 위한 JSON 형식의 POST 요청을 아래와 주소로 보낼 수 있습니다.
 > ex) 
 > 
->  http://localhost:8081/auth/memberrtype/{userId}
+>  http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/auth/memberrtype/{userId}
 > 
 >  { "roleType" : "USER" }
 
