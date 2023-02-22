@@ -34,6 +34,13 @@ public class Post extends BaseTimeEntity{ //자바에서 상속받은 부모 클
     private List<FileEntity> FileEntityList = new ArrayList<>(); //여러개가 올수 있도록 참조관계 설정 -> db에 저장되는건 아님
 
 
+    @OneToMany(mappedBy ="post", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>(); //여러개가 올수 있도록 참조관계 설정 -> db에 저장되는건 아님
+
+    @OneToOne(mappedBy ="post", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AnswerEntity answerEntity;
+
+
     //entitiy -> dto
     public static Post toSaveEntity(PostDto postDto)
     {

@@ -14,16 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor //생성자를 자동으로 생성해서 의존관계를 주입해줌?
-public class LocalService {
+public class FileService {
 
     private final PostFileRepository postFileRepository;
 
@@ -46,7 +43,7 @@ public class LocalService {
             String savedName = uuid + originalFilename+ extension;
 
             // 파일을 불러올 때 사용할 파일 경로
-            String savedPath = "C:\\Users\\82103\\Desktop\\upload\\" + savedName;
+            String savedPath = "C:\\Users\\82103\\Desktop\\postupload\\" + savedName;
 
 
             FileDto fileDto = new FileDto();

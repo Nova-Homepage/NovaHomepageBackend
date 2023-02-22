@@ -1,10 +1,11 @@
 package Nova.Post.controller;
 
+import Nova.Post.Dto.CommentDto;
 import Nova.Post.Dto.PostDto;
-import Nova.Post.Dto.PagingDto;
 import Nova.Post.domain.FileEntity;
 import Nova.Post.domain.Post;
-import Nova.Post.service.LocalService;
+import Nova.Post.service.CommentService;
+import Nova.Post.service.FileService;
 import Nova.Post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +19,39 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor //생성자 생성과 의존관계를 진행해줌
 @RequestMapping("/post") //해당 컨트롤러에서 /post를 가장 앞 uri에 위치시킨다.
-@Transactional
 @RestController
 public class PostController {
 
     private final PostService postService;
-    private final LocalService localService;
+    private final FileService fileService;
+    private final CommentService commentService;
 
     //글쓰기
     @PostMapping(value = "/save" , consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
     public String createPost(@RequestPart PostDto postDto, @RequestPart(value = "files",required = false) List<MultipartFile> files) throws IOException {
-        if(files.isEmpty())
+        if(files.isEmpty()) //null인데 왜자꾸 다른데 쳐 들어가는거냐
         { //파일이 없을대
             postService.save(postDto);
         }
         else {
             //첨부파일이 있을때
             Post save = postService.save(postDto);
-            localService.uploadfile(files,save);
+            fileService.uploadfile(files,save);
 
         }
         return "게시글 생성";
@@ -62,13 +65,23 @@ public class PostController {
     }
     //상세페이지  paging?page=1
     @GetMapping("/{id}")
-    public PostDto findById(@PathVariable Long id ,@PageableDefault(page=1) Pageable pageable)
+    public ResponseEntity<Map<String,Object>> findById(@PathVariable Long id , @PageableDefault(page=1) Pageable pageable)
     {
         //PostDto 객체가 위치한 페이지를 PostDto가 가지고 있어야 할듯?
         //그때그때 위치한 게시글의 페이지가 바뀌니까 여기서 넣어주는게 맞을듯?
-        PostDto postDto = postService.findById(id);
-        postDto.setPreviouspage(pageable.getPageNumber()); //상세페이지를 들어가고 나왔을때 이전 page를 알고 있어야한다.
-        return  postDto;
+
+        if(postService.findById(id) == null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            PostDto postDto = postService.findById(id);
+            List<Map<String, Object>> commentDtoList = commentService.findAll(postDto.getId());//게시글의 모든 댓글 가져오기
+            Map<String, Object> result = new HashMap<>();
+            result.put("post",postDto);
+            result.put("comment",commentDtoList);
+            return ResponseEntity.ok().body(result);
+        }
     }
 
     //글 수정페이지로 이동
@@ -104,28 +117,30 @@ public class PostController {
     }
 
 
-    @Autowired
-    private ResourceLoader resourceLoader;
+
     //파일 서비스
-    @GetMapping("/images/{fileId}")
-    public String downloadImage(@PathVariable("fileId") Long id) throws IOException{
 
 
-        String aa = "<img src=\""+localService.downloadImage(id).getFile() + "\">";
-        return aa;
-//        return localService.downloadImage(id);
-    }
+//    @GetMapping("/images/{fileId}")
+//    public String downloadImage(@PathVariable("fileId") Long id) throws IOException{
+//
+//
+//        String aa = "<img src=\""+fileService.downloadImage(id).getFile() + "\">";
+//        return aa;
+////        return localService.downloadImage(id);
+//    }
+//
+//    @GetMapping("/image/all")
+//    public List<FileEntity> findfileAll()
+//    {
+//        return fileService.findAll();
+//    }
 
-    @GetMapping("/image/all")
-    public List<FileEntity> findfileAll()
-    {
-        return localService.findAll();
-    }
     // 첨부 파일 다운로드
     @GetMapping("/attach/{id}")
     public ResponseEntity<Resource> downloadAttach(@PathVariable Long id) throws MalformedURLException {
 
-        FileEntity file = localService.findById(id);
+        FileEntity file = fileService.findById(id);
 
         UrlResource resource = new UrlResource("file:" + file.getFile_path());
 

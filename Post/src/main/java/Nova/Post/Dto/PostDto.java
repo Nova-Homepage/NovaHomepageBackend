@@ -23,7 +23,6 @@ public class PostDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    private Integer previouspage;
 
     public PostDto(Long id, String title, String content, TagState tag, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
