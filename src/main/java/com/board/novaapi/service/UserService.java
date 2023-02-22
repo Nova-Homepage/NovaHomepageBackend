@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,23 +29,34 @@ public class UserService {
     // userid, username, roletype 만을 제공 (권한 변경에 필수적인 사항만)
     // json 형태로 제공
     // paging 기능 제공해야함.
-    @Transactional
-    public Map<String, Object> getAllSimpleMemberInfo(){
-        Map<String, Object> result = new HashMap<>();
-        List<User> user = userRepository.findAll();
 
-        user.stream().forEach(user1 -> {
-            result.put("userId",user1.getUserId());
-            result.put("username",user1.getUsername());
-            result.put("roleType",user1.getRoleType());
-        });
-        return result;
+    //dto를 만들어서 반환해 주는 방법이 읽기에 깔끔함.
+    @Transactional
+    public List<Map<String, Object>> getAllSimpleMemberInfo(){
+
+        List<User> user = userRepository.findAll();
+        System.out.println(user);
+        List<Map<String,Object>> simpleMemberInfo = new ArrayList<>();
+
+        for(User u : user){
+            Map<String, Object> result = new HashMap<>();
+            result.put("userId",u.getUserId());
+            result.put("username",u.getUsername());
+            result.put("roleType",u.getRoleType());
+            System.out.println(simpleMemberInfo);
+            simpleMemberInfo.add(result);
+        }
+        System.out.println(simpleMemberInfo);
+        return simpleMemberInfo;
     }
 
     //
     public void UpdateMemberRoleType(String userId, String stringRoleType){
         //string roleType를 변경해주어야 함.
-        System.out.println("update 시 주입된 roletype 확인 : " + stringRoleType);
+        //System.out.println("update 시 주입된 roletype 확인 : " + stringRoleType);
+        /**
+         * log 사용해서 남기기.
+         */
         RoleType roleType;
         if (stringRoleType.equals("ADMIN")){
             roleType = RoleType.ADMIN;

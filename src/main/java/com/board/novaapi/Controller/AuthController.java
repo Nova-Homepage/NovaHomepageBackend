@@ -22,7 +22,7 @@ public class AuthController {
     //유저 검색기능 있어야함.
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/memberrtype")
-    public Map<String,Object> getAllSimpleMemberInfo(){
+    public List<Map<String,Object>> getAllSimpleMemberInfo(){
         return userService.getAllSimpleMemberInfo();
     }
 
