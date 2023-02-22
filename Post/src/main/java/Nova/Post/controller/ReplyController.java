@@ -5,10 +5,7 @@ import Nova.Post.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor //생성자 생성과 의존관계를 진행해줌
 @RequestMapping("/reply") //해당 컨트롤러에서 /post를 가장 앞 uri에 위치시킨다.
@@ -27,5 +24,20 @@ public class ReplyController {
         else {
             return new ResponseEntity<>("댓글이 존재하지 않습니다",HttpStatus.NOT_FOUND); //바디와 상태를 같이 보냄
         }
+    }
+    //대댓글 수정
+    @PostMapping("/update")
+    public ReplyDto update(@RequestBody ReplyDto replyDto)
+    {
+        ReplyDto update = replyService.update(replyDto);
+        return update;
+    }
+
+    //대댓글 삭제
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id)
+    {
+        replyService.delete(id);
+        return "대댓글 삭제";
     }
 }

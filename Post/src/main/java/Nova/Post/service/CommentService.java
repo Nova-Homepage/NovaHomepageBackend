@@ -75,7 +75,6 @@ public class CommentService {
     @Transactional(readOnly = false)
     public CommentDto update(CommentDto commentDto) {
         Post post = postRepository.findById(commentDto.getPostId()).get();
-        CommentDto commentdto = findById(commentDto.getId());
 
         CommentEntity commentEntity = CommentEntity.toUpdateEntitiy(commentDto, post);
         commentRepository.save(commentEntity);

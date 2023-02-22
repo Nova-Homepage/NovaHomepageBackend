@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -31,6 +32,16 @@ public class ReplyEntitiy extends BaseTimeEntity{
         replyEntitiy.setCommentWriter(replyDto.getCommentWriter());
         replyEntitiy.setCommentContents(replyDto.getCommentContents());
         replyEntitiy.setCommentEntity(commentEntity);
+        return replyEntitiy;
+    }
+    public static ReplyEntitiy toUpdateEntity(ReplyDto replyDto,CommentEntity commentEntity)
+    {
+        ReplyEntitiy replyEntitiy = new ReplyEntitiy();
+        replyEntitiy.setCommentWriter(replyDto.getCommentWriter());
+        replyEntitiy.setCommentContents(replyDto.getCommentContents());
+        replyEntitiy.setCommentEntity(commentEntity);
+        replyEntitiy.setModifiedDate(LocalDateTime.now());
+        replyEntitiy.setId(replyDto.getId());
         return replyEntitiy;
     }
 

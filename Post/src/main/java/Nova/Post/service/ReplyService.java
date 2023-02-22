@@ -1,7 +1,9 @@
 package Nova.Post.service;
 
+import Nova.Post.Dto.PostDto;
 import Nova.Post.Dto.ReplyDto;
 import Nova.Post.domain.CommentEntity;
+import Nova.Post.domain.Post;
 import Nova.Post.domain.ReplyEntitiy;
 import Nova.Post.repository.CommentRepository;
 import Nova.Post.repository.ReplyRepository;
@@ -38,5 +40,30 @@ public class ReplyService {
              replyDtoList.add(ReplyDto.toReplyDto(replyEntitiy));
         }
         return replyDtoList;
+    }
+    public ReplyDto findById(Long id)
+    {
+        Optional<ReplyEntitiy> Optinalreply = replyRepository.findById(id);
+        if(Optinalreply.isPresent()) {
+            ReplyEntitiy replyEntitiy = Optinalreply.get();
+            ReplyDto replyDto = ReplyDto.toReplyDto(replyEntitiy);
+            return replyDto;
+        }
+        else {
+            return null;
+        }
+    }
+    @Transactional(readOnly = false)
+    public ReplyDto update(ReplyDto replyDto) {
+        CommentEntity commentEntity = commentRepository.findById(replyDto.getCommenttId()).get();
+        ReplyEntitiy replyEntitiy = ReplyEntitiy.toUpdateEntity(replyDto, commentEntity);
+        replyRepository.save(replyEntitiy);
+        return findById(replyDto.getId());
+
+    }
+
+    @Transactional(readOnly = false)
+    public void delete(Long id) {
+        replyRepository.deleteById(id);
     }
 }
