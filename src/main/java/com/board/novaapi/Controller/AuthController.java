@@ -1,5 +1,6 @@
 package com.board.novaapi.Controller;
 
+import com.board.novaapi.OAuth.Entity.RoleType;
 import com.board.novaapi.repository.user.UserRepository;
 import com.board.novaapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,23 +18,28 @@ public class AuthController {
 
     private final UserRepository userRepository;
     private final UserService userService;
-    //유저 권한 컨트롤러
-    //member role type 확인 및 변경
-    //유저 검색기능 있어야함.
+
+    /***
+     *
+     * @return 요약 멤버 정보 반환 (userId, username, roleType
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/memberrtype")
     public List<Map<String,Object>> getAllSimpleMemberInfo(){
         return userService.getAllSimpleMemberInfo();
     }
 
-    // 유저 아이디, 유저 권한타입
-
-    @Transactional
+    /***
+     *
+     * @param userId 유저 고유 아이디
+     * @param param roleType
+     * 성공시 HttpStatus 200 OK 반환
+     */
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/memberrtype/{userId}")
-    public String UpdateMembersRoleType(@PathVariable("userId") String userId, @RequestBody Map<String,String> param){
-        String roleType = param.get("roleType");
+    public void UpdateMembersRoleType(@PathVariable("userId") String userId, @RequestBody Map<String,RoleType> param){
+        RoleType roleType = param.get("roleType");
         userService.UpdateMemberRoleType(userId,roleType);
-        return "redirect://auth/memberrtype";
     }
 
 }

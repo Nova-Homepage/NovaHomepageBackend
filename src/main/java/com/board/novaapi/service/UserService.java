@@ -50,29 +50,15 @@ public class UserService {
         return simpleMemberInfo;
     }
 
-    //
-    public void UpdateMemberRoleType(String userId, String stringRoleType){
-        //string roleType를 변경해주어야 함.
-        //System.out.println("update 시 주입된 roletype 확인 : " + stringRoleType);
-        /**
-         * log 사용해서 남기기.
-         */
-        RoleType roleType;
-        if (stringRoleType.equals("ADMIN")){
-            roleType = RoleType.ADMIN;
-        }
-        else if(stringRoleType.equals("USER")){
-            roleType = RoleType.USER;
-        }
-        else if(stringRoleType.equals("GUEST")){
-            roleType = RoleType.GUEST;
-        }else{
-            System.out.println("잘못된 RoleType 주입. error 발생 GUEST 로 초기화");
-            roleType = RoleType.GUEST;
-        }
-        userRepository.UpdateRoleTypeByuserId(userId, roleType);
+    /***
+     *
+     * @param userId
+     * @param roleType
+     */
+    @Transactional
+    public void UpdateMemberRoleType(String userId, RoleType roleType){
+        userRepository.UpdateRoleTypeByuserId(userId, RoleType.of(roleType.getCode()));
     }
-
     public String getMemberRoleTypeByUserId(String userId){
         return userRepository.getMemberRoleTypeByUserId(userId);
     }
