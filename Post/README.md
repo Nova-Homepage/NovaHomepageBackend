@@ -1,12 +1,12 @@
 # 게시판 주요 기능
-- 글쓰기(post/save)
-- 글목록(post)
-- 글수정(post/update/{id})
+- 글쓰기(boardEntity/save)
+- 글목록(boardEntity)
+- 글수정(boardEntity/update/{id})
   - 제목,내용,tag(카테고리수정)
-- 글조회(post/{id})
+- 글조회(boardEntity/{id})
   - 상세페이지 조회시 이전에 위치해 있던 페이지반환 -> 모든 댓글 보이도록 만듬
-- 글삭제(post/delete/{id})
-- 페이징처리(post/paging) //post/paging?page=2
+- 글삭제(boardEntity/delete/{id})
+- 페이징처리(boardEntity/paging) //boardEntity/paging?page=2
 
 # 파일
 - 파일 등록하기 - 구현

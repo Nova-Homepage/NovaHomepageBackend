@@ -1,9 +1,7 @@
 package Nova.Post.service;
 
-import Nova.Post.Dto.PostDto;
 import Nova.Post.Dto.ReplyDto;
 import Nova.Post.domain.CommentEntity;
-import Nova.Post.domain.Post;
 import Nova.Post.domain.ReplyEntitiy;
 import Nova.Post.repository.CommentRepository;
 import Nova.Post.repository.ReplyRepository;

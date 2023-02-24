@@ -25,7 +25,7 @@ public class AnswerEntity {
 
     @OneToOne
     @JoinColumn(name ="post_id")
-    Post post;
+    BoardEntity boardEntity;
 
 
 

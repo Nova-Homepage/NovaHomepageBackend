@@ -1,9 +1,7 @@
 package Nova.Post.service;
 
-import Nova.Post.Dto.PostDto;
-import Nova.Post.domain.Post;
+import Nova.Post.Dto.BoardDto;
 import Nova.Post.domain.TagState;
-import Nova.Post.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,42 +16,43 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional //테스트에서 사용되게 되면 처음 db를 다 롤백시킴
 @Rollback(value = false) //테스트후 롤백을 안시킴
-class PostServiceTest {
+class BoardEntityServiceTest {
 
-    @Autowired PostService postService;
+    @Autowired
+    BoardService boardService;
 
     @Test
     void 회원가입() {
-        PostDto postDto = new PostDto();
-        postDto.setTag(TagState.NOTICE);
+        BoardDto boardDto = new BoardDto();
+        boardDto.setTag(TagState.NOTICE);
 //        postService.save(postDto);
     }
     @Test
     void 회원조회()
     {
-        PostDto postDto = new PostDto();
-        postDto.setTag(TagState.NOTICE);
+        BoardDto boardDto = new BoardDto();
+        boardDto.setTag(TagState.NOTICE);
 //        postService.save(postDto);
 
-        PostDto postDto1 = new PostDto();
-        postDto1.setTag(TagState.NOTICE);
+        BoardDto boardDto1 = new BoardDto();
+        boardDto1.setTag(TagState.NOTICE);
 //        postService.save(postDto1);
 
 
-        System.out.println(postService.findAll().toString());
+        System.out.println(boardService.findAll().toString());
     }
     @Test
     void 상세페이지()
     {
-        PostDto postDto = new PostDto();
-        postDto.setTag(TagState.NOTICE);
+        BoardDto boardDto = new BoardDto();
+        boardDto.setTag(TagState.NOTICE);
 //        postService.save(postDto);
 
-        PostDto postDto1 = new PostDto();
-        postDto1.setTag(TagState.ANSWER);
+        BoardDto boardDto1 = new BoardDto();
+        boardDto1.setTag(TagState.ANSWER);
 //        postService.save(postDto1);
 
-        postService.findAll();
-        postService.findById(1L);
+        boardService.findAll();
+        boardService.findById(1L);
     }
 }

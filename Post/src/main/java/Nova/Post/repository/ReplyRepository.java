@@ -1,7 +1,6 @@
 package Nova.Post.repository;
 
 import Nova.Post.domain.CommentEntity;
-import Nova.Post.domain.Post;
 import Nova.Post.domain.ReplyEntitiy;
 import org.springframework.data.jpa.repository.JpaRepository;
 

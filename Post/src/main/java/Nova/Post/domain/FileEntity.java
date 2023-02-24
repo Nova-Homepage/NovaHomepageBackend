@@ -1,7 +1,6 @@
 package Nova.Post.domain;
 
 import Nova.Post.Dto.FileDto;
-import Nova.Post.Dto.PostDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@Table(name = "File")
+@Table(name = "file_table")
 public class FileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +30,8 @@ public class FileEntity {
     private Long file_size;
 
     @ManyToOne(fetch = FetchType.LAZY) //Eager가 기본 패치전략
-    @JoinColumn(name="post_id")
-    private Post post; //반드시 부모엔티티가 들어가야한다.
+    @JoinColumn(name="board_id")
+    private BoardEntity boardEntity; //반드시 부모엔티티가 들어가야한다.
 
 
     public static FileEntity toSaveFileEntity(FileDto fileDto)
@@ -43,7 +42,7 @@ public class FileEntity {
         fileEntity.setFile_size(fileDto.getFile_size());
         fileEntity.setOriginalFileName(fileDto.getOriginalFileName());
         fileEntity.setStoredFileName(fileDto.getStoredFileName());
-        fileEntity.setPost(fileDto.getPost()); //저장된 객체에 따라서 jpa에 들어갈때 연결시켜주는듯?
+        fileEntity.setBoardEntity(fileDto.getBoardEntity()); //저장된 객체에 따라서 jpa에 들어갈때 연결시켜주는듯?
         return fileEntity;
 
     }

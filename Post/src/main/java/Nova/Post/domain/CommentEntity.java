@@ -3,7 +3,6 @@ package Nova.Post.domain;
 import Nova.Post.Dto.CommentDto;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,28 +26,28 @@ public class CommentEntity extends BaseTimeEntity{
     private String commentContents;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "board_id")
+    private BoardEntity boardEntity;
 
     @OneToMany(mappedBy ="commentEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ReplyEntitiy> replyEntitiyList= new ArrayList<>();
 
-    public static CommentEntity toSaveEntity(CommentDto commentDto, Post post) {
+    public static CommentEntity toSaveEntity(CommentDto commentDto, BoardEntity boardEntity) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setCommentWriter(commentDto.getCommentWriter());
         commentEntity.setCommentContents(commentDto.getCommentContents());
-        commentEntity.setPost(post); //부모 엔티티 값을 넣어야 참조관계를 인식한다.
+        commentEntity.setBoardEntity(boardEntity); //부모 엔티티 값을 넣어야 참조관계를 인식한다.
         return commentEntity;
 
     }
-    public  static CommentEntity toUpdateEntitiy(CommentDto commentDto, Post post)
+    public  static CommentEntity toUpdateEntitiy(CommentDto commentDto, BoardEntity boardEntity)
     {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setCommentWriter(commentDto.getCommentWriter());
         commentEntity.setCommentContents(commentDto.getCommentContents());
         commentEntity.setModifiedDate(LocalDateTime.now());
         commentEntity.setId(commentDto.getId()); //id값을 넣어줘야 update될때 찾아서 알아서 업데이트됨
-        commentEntity.setPost(post); //부모 엔티티 값을 넣어야 참조관계를 인식한다.
+        commentEntity.setBoardEntity(boardEntity); //부모 엔티티 값을 넣어야 참조관계를 인식한다.
         return commentEntity;
     }
 }

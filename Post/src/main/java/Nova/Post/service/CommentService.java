@@ -1,13 +1,12 @@
 package Nova.Post.service;
 
 import Nova.Post.Dto.CommentDto;
-import Nova.Post.Dto.PostDto;
 import Nova.Post.Dto.ReplyDto;
+import Nova.Post.domain.BoardEntity;
 import Nova.Post.domain.CommentEntity;
-import Nova.Post.domain.Post;
 import Nova.Post.domain.ReplyEntitiy;
 import Nova.Post.repository.CommentRepository;
-import Nova.Post.repository.PostRepository;
+import Nova.Post.repository.BoardRepository;
 import Nova.Post.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,13 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
+    private final BoardRepository postRepository;
     private final ReplyRepository replyRepository;
 
     //댓글 저장
     public Long save(CommentDto commentDto) {
-        Post post = postRepository.findById(commentDto.getPostId()).get(); //부모엔티티 조회
-        CommentEntity commentEntity = CommentEntity.toSaveEntity(commentDto,post);
+        BoardEntity boardEntity = postRepository.findById(commentDto.getBoardId()).get(); //부모엔티티 조회
+        CommentEntity commentEntity = CommentEntity.toSaveEntity(commentDto, boardEntity);
         return commentRepository.save(commentEntity).getId();
         //builder
     }
@@ -34,8 +33,8 @@ public class CommentService {
     //모든 댓글 찾기 댓글 -> 대댓글
     public  List<Map<String,Object>> findAll(Long postId) {
         // select * from comment_table where board_id? order by id desc;
-        Post post = postRepository.findById(postId).get();
-        List<CommentEntity> commentEntityList = commentRepository.findAllByPostOrderByIdAsc(post);
+        BoardEntity boardEntity = postRepository.findById(postId).get();
+        List<CommentEntity> commentEntityList = commentRepository.findAllByBoardEntityOrderByIdAsc(boardEntity);
 
         List<Map<String,Object>> commentDtoList = new ArrayList<>();
         for( CommentEntity commentEntity : commentEntityList)
@@ -74,9 +73,9 @@ public class CommentService {
     //댓글 수정
     @Transactional(readOnly = false)
     public CommentDto update(CommentDto commentDto) {
-        Post post = postRepository.findById(commentDto.getPostId()).get();
+        BoardEntity boardEntity = postRepository.findById(commentDto.getBoardId()).get();
 
-        CommentEntity commentEntity = CommentEntity.toUpdateEntitiy(commentDto, post);
+        CommentEntity commentEntity = CommentEntity.toUpdateEntitiy(commentDto, boardEntity);
         commentRepository.save(commentEntity);
         return findById(commentDto.getId());
     }

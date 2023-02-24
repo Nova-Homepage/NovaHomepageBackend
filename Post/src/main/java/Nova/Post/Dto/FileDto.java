@@ -1,13 +1,10 @@
 package Nova.Post.Dto;
 
-import Nova.Post.domain.Post;
+import Nova.Post.domain.BoardEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
 
 @Getter
 @Setter
@@ -26,5 +23,5 @@ public class FileDto {
 
     private Long file_size;
 
-    private Post post;
+    private BoardEntity boardEntity;
 }

@@ -2,8 +2,8 @@ package Nova.Post.service;
 
 import Nova.Post.Dto.FileDto;
 import Nova.Post.domain.FileEntity;
-import Nova.Post.domain.Post;
-import Nova.Post.repository.PostFileRepository;
+import Nova.Post.domain.BoardEntity;
+import Nova.Post.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -22,11 +22,11 @@ import java.util.UUID;
 @RequiredArgsConstructor //생성자를 자동으로 생성해서 의존관계를 주입해줌?
 public class FileService {
 
-    private final PostFileRepository postFileRepository;
+    private final FileRepository fileRepository;
 
     @Transactional(readOnly = false)
     //파일업로드
-    public void uploadfile(List<MultipartFile> files, Post post) throws IOException {
+    public void uploadfile(List<MultipartFile> files, BoardEntity boardEntity) throws IOException {
 
         for(MultipartFile file : files) {
 
@@ -52,13 +52,13 @@ public class FileService {
             fileDto.setFile_path(savedPath);
             fileDto.setFile_size(file.getSize());
             fileDto.setFile_type(file.getContentType());
-            fileDto.setPost(post);
+            fileDto.setBoardEntity(boardEntity);
 
         // 실제로 로컬에 uuid를 파일명으로 저장
         file.transferTo(new File(savedPath));
 
         // 데이터베이스에 파일 정보 저장
-        FileEntity savedFile = postFileRepository.save(FileEntity.toSaveFileEntity(fileDto));
+        FileEntity savedFile = fileRepository.save(FileEntity.toSaveFileEntity(fileDto));
 
         }
 //        return savedFile.getId(); //업로드된 파일이 무엇인지 확인할 때 유용할듯
@@ -66,15 +66,15 @@ public class FileService {
     }
 
     public Resource downloadImage(Long id) throws MalformedURLException {
-        FileEntity fileEntity = postFileRepository.findById(id).get();
+        FileEntity fileEntity = fileRepository.findById(id).get();
         return new UrlResource("file:" + fileEntity.getFile_path());
     }
     public List<FileEntity> findAll()
     {
-        return  postFileRepository.findAll();
+        return  fileRepository.findAll();
     }
     public FileEntity findById(Long id)
     {
-        return postFileRepository.findById(id).get();
+        return fileRepository.findById(id).get();
     }
 }
