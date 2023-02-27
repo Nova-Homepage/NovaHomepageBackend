@@ -1,4 +1,3 @@
-spring:
 #  datasource:
 #    url: jdbc:h2:tcp://localhost/~/Nova
 #    username: sa
@@ -12,13 +11,14 @@ spring:
 #      hibernate:
 #        #        show_sql: true
 #        format_sql: true
+spring:
   main:
     allow-circular-references: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.17.0.2:3306/novadb?allowedPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username:
-    password:
+    url: jdbc:mysql://localhost:3306/novadb?allowedPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: root
 
   jpa:
     database: mysql
@@ -29,10 +29,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
   security:
     oauth2:
       client:
@@ -40,33 +36,30 @@ spring:
           google:
             clientId:
             clientSecret:
-            redirectUri: http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/oauth2/callback/google
+            redirectUri:
             scope:
               - email
               - profile
 
-
           github:
             clientId:
             clientSecret:
-            redirectUri: http://localhost:8081/oauth2/callback/github
+            redirectUri:
             scope:
               - user:email
               - read:user
 
-
-# cors
+# cors ??
 cors:
   allowed-origins: 'http://localhost:3000'
   allowed-methods: GET,POST,PUT,DELETE,OPTIONS
   allowed-headers: '*'
   max-age: 3600
 
-## jwt secret key ??
+# jwt secret key ??
 jwt.secret:
 
 # ?? ?? secret Key ? RedirectUri ??
-
 app:
   auth:
     tokenSecret:

@@ -1,18 +1,14 @@
 package com.board.novaapi.Controller;
 
 import com.board.novaapi.OAuth.Entity.RoleType;
-import com.board.novaapi.dto.SimpleUserInfoDto;
-import com.board.novaapi.repository.user.UserRepository;
+import com.board.novaapi.dto.userDTO.SimpleUserInfoDto;
 import com.board.novaapi.service.AuthService;
-import com.board.novaapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController

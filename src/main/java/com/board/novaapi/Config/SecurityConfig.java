@@ -27,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 
 import java.util.Arrays;
 
@@ -135,9 +136,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/oauth2/**","/info/**").permitAll()
+                .antMatchers("/oauth2/**",
+                        "/v2/api-docs",
+                        "/info/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/swagger-ui/index.html",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger/**").permitAll()
                 .antMatchers("/info/user").hasAnyAuthority(RoleType.USER.getCode(),RoleType.ADMIN.getCode())
                 .antMatchers( "/auth/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+                .antMatchers( "/board/**","/comment/**","/file/**","/reply/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
 
                 .anyRequest().authenticated()
                 .and()

@@ -1,4 +1,4 @@
-package com.board.novaapi.dto;
+package com.board.novaapi.dto.userDTO;
 
 import com.board.novaapi.OAuth.Entity.RoleType;
 import com.board.novaapi.entity.user.User;

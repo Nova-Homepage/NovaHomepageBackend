@@ -1,13 +1,11 @@
 package com.board.novaapi.service;
 
 import com.board.novaapi.OAuth.Entity.RoleType;
-import com.board.novaapi.dto.SimpleUserInfoDto;
 import com.board.novaapi.entity.user.User;
 import com.board.novaapi.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
