@@ -35,6 +35,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    runtimeOnly 'com.h2database:h2' //h2
+    implementation 'org.springframework.boot:spring-boot-starter-validation' //@Valid를 사용하기 위해서 사용 -> 객체에 들어올때 자동으로 type 검증을 진행해준다.
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6' //콘솔로 sql문을 확인할 수 있다.
+    // Swagger 2
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2' //compile -> implementation을
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 }
 configurations {
     all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
