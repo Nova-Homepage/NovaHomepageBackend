@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserId(String userId);
@@ -35,5 +33,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "select user.roleType "+
                     "from User user "+
                     "where user.userId = :userId")
-    String getMemberRoleTypeByUserId(String userId);
+    String getRoleTypeByUserId(String userId);
 }

@@ -1,46 +1,81 @@
 package com.board.novaapi.Controller;
 
 import com.board.novaapi.common.ApiResponse;
+import com.board.novaapi.dto.userDTO.UserProfileDto;
 import com.board.novaapi.entity.user.User;
+import com.board.novaapi.repository.user.UserRepository;
 import com.board.novaapi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    // 유저 정보를 위한 Controller
-
+    private final UserRepository userRepository;
     private final UserService userService;
 
+    /***
+     *
+     * @return ApiResponse 반환
+     */
     @GetMapping("/test")
     public ApiResponse getUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User user = userService.getUser(principal.getUsername());
-
         return ApiResponse.success("user", user);
     }
 
-    // 좋은 uri 란 무엇일까 생각해보자.
-    // 리소스를 잘 식별할 수 있어야 한다.
+    /***
+     * user id 에 맞는 user profile을 가져온다
+     * 프로필은 하나뿐임으로 페이징을 적용하지 않는다.
+     * 유저 테이블에 userId가 존재하는지 확인
+     * @return ApiResponse.success and .fail()
+     */
+    @GetMapping("/profile/one/{userId}")
+    public ApiResponse getOneUserProfile(@PathVariable String userId){
 
-    @GetMapping("/guest")
-    public String InfoGuest(){
-        return "hello_guest";
+        /***
+         * 해당부분을 exist를 사용한 jpa repository 로 대체할 예정 (성능상 이슈)
+         */
+        if(userRepository.checkUserIdExist(userId)){
+            UserProfileDto profileDto = new UserProfileDto(userService.getOneUserProfile(userId));
+            return ApiResponse.success("userProfile",profileDto);
+        }else{
+            return ApiResponse.fail();
+        }
+
     }
 
-    @GetMapping("/user")
-    public String InfoUser(){
-        return "hello_user";
+    /***
+     * 모든 user profile을 가져온다
+     * @return Page<UserProfileDto>
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/profile/all")
+    public Page<UserProfileDto> getAllUserProfile(Pageable pageable){
+        return userService.getAllUserProfile(pageable).map(UserProfileDto::new);
+    }
+    /**
+     * user profile 수정
+     * @param userId
+     * @param userProfileDto
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("profile/update/{userId}")
+    public void UpdateUserProfile(@PathVariable("userId") String userId, @RequestBody UserProfileDto userProfileDto){
+
+        System.out.println(userProfileDto);
+        userService.updateUserProfile(userId, userProfileDto);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/hello")
     public String InfoAll(){
         return "hello_all";
     }

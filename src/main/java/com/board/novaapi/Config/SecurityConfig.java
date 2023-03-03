@@ -129,6 +129,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
+                .logout().logoutSuccessUrl("/oauth2/logout")
+                .and()
                 .httpBasic().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
@@ -136,18 +138,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/oauth2/**",
-                        "/v2/api-docs",
-                        "/info/**",
-                        "/swagger-ui.html",
-                        "/swagger-resources/**",
-                        "/swagger-ui/index.html",
-                        "/swagger-ui.html",
-                        "/webjars/**",
-                        "/swagger/**").permitAll()
-                .antMatchers("/info/user").hasAnyAuthority(RoleType.USER.getCode(),RoleType.ADMIN.getCode())
-                .antMatchers( "/auth/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
-                .antMatchers( "/board/**","/comment/**","/file/**","/reply/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+                .antMatchers("/oauth2/**","/info/**","/auth/refresh").permitAll()
+                .antMatchers( "/auth/*").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+                .antMatchers( "/user/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and()
