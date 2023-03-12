@@ -2,6 +2,7 @@ package com.board.novaapi.Controller;
 
 import com.board.novaapi.common.ApiResponse;
 import com.board.novaapi.dto.userDTO.UserProfileDto;
+import com.board.novaapi.dto.userDTO.UserProfileUpdateDto;
 import com.board.novaapi.entity.user.User;
 import com.board.novaapi.entity.user.UserProfile;
 import com.board.novaapi.repository.user.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,19 +68,26 @@ public class UserController {
     public ApiResponse getAllUserProfile(){
         return ApiResponse.success("userProfile",userService.getAllUserProfile().stream().map(UserProfileDto::new));
     }
+
     /**
-     * user profile 수정
+     * 유저 프로필 정보 수정
      * @param userId
-     * @param userProfileDto
+     * @param userProfileUpdateDto
      */
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("profile/update/{userId}")
-    public void UpdateUserProfile(@PathVariable("userId") String userId, @RequestBody UserProfileDto userProfileDto){
+    public void UpdateUserProfile(@PathVariable("userId") String userId, @RequestBody UserProfileUpdateDto userProfileUpdateDto){
 
-        System.out.println(userProfileDto);
-        userService.updateUserProfile(userId, userProfileDto);
+        userService.updateUserProfile(userId, userProfileUpdateDto);
     }
 
+    /* 유저프로필 update 를 위한 함수 // 보류.
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("profile/update/img/{userId}")
+    public void UpdateUserProfileImg(@PathVariable("userId") String userId, @RequestBody MultipartFile profileimg){
+
+    }
+*/
     @GetMapping("/hello")
     public String InfoAll(){
         return "hello_all";

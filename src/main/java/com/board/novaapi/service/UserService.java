@@ -2,6 +2,7 @@ package com.board.novaapi.service;
 
 
 import com.board.novaapi.dto.userDTO.UserProfileDto;
+import com.board.novaapi.dto.userDTO.UserProfileUpdateDto;
 import com.board.novaapi.entity.user.User;
 import com.board.novaapi.entity.user.UserProfile;
 import com.board.novaapi.repository.user.UserProfileRepository;
@@ -48,20 +49,20 @@ public class UserService {
         return userProfileRepository.findAll();
     }
 
-    /***
+    /**
      *
      * @param userId
-     * @param userProfileDto
+     * @param userProfileUpdateDto
      */
     @Transactional(readOnly = false)
-    public void updateUserProfile(String userId, UserProfileDto userProfileDto){
+    public void updateUserProfile(String userId, UserProfileUpdateDto userProfileUpdateDto){
         // profile 존재여부 확인
         Long ProfileSeq = userRepository.findByUserId(userId).getUserProfile().getUserProfileSeq();
         userProfileRepository.updateProfileByUserSeq(ProfileSeq,
-                userProfileDto.getProfileComment(),
-                userProfileDto.getPhone(),
-                userProfileDto.getStudentId(),
-                userProfileDto.getBlogInfo());
+                userProfileUpdateDto.getProfileComment(),
+                userProfileUpdateDto.getPhone(),
+                userProfileUpdateDto.getStudentId(),
+                userProfileUpdateDto.getBlogInfo());
     }
 
 }

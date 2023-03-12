@@ -29,7 +29,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/memberrtype")
     public ApiResponse getAllSimpleMemberInfo(){
-        return ApiResponse.success("success",authService.getAllMemberInfo().stream().map(SimpleUserInfoDto::new));
+        return ApiResponse.success("simpleUserInfo",authService.getAllMemberInfo().stream().map(SimpleUserInfoDto::new));
     }
 
     /***
