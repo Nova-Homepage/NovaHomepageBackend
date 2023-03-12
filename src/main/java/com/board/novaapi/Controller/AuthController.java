@@ -1,6 +1,7 @@
 package com.board.novaapi.Controller;
 
 import com.board.novaapi.OAuth.Entity.RoleType;
+import com.board.novaapi.common.ApiResponse;
 import com.board.novaapi.dto.userDTO.SimpleUserInfoDto;
 
 import com.board.novaapi.service.AuthService;
@@ -20,15 +21,15 @@ public class AuthController {
     private final AuthService authService;
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
+
     /***
-     *
-     * @param pageable
-     * @return 모든 멤버의 요약 정보를 반환
+     * 모든멤버의 요약정보 반환
+     * @return SimpleUserInfoDto
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/memberrtype")
-    public Page<SimpleUserInfoDto> getAllSimpleMemberInfo(Pageable pageable){
-        return authService.getAllMemberInfo(pageable).map(SimpleUserInfoDto::new);
+    public ApiResponse getAllSimpleMemberInfo(){
+        return ApiResponse.success("success",authService.getAllMemberInfo().stream().map(SimpleUserInfoDto::new));
     }
 
     /***

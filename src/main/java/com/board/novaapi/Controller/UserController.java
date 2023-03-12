@@ -3,6 +3,7 @@ package com.board.novaapi.Controller;
 import com.board.novaapi.common.ApiResponse;
 import com.board.novaapi.dto.userDTO.UserProfileDto;
 import com.board.novaapi.entity.user.User;
+import com.board.novaapi.entity.user.UserProfile;
 import com.board.novaapi.repository.user.UserRepository;
 import com.board.novaapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController

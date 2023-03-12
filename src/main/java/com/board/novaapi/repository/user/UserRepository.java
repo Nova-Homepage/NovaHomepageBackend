@@ -9,11 +9,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserId(String userId);
 
-    Page<User> findAll(Pageable pageable);
+    List<User> findAll();
 
     @Query(value =
             "select COUNT(user.userId)>0 "+
