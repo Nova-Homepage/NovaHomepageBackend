@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserProfileDto {
+public class UserProfileUpdateDto {
 
     private String studentId;
 
@@ -16,17 +16,10 @@ public class UserProfileDto {
 
     private String phone;
 
-    private String profileImageUrl;
-
-    private String username;
-
-    public UserProfileDto(UserProfile profile) {
+    public UserProfileUpdateDto(UserProfile profile) {
         this.studentId = profile.getStudentId();
         this.profileComment = profile.getProfileComment();
         this.blogInfo = profile.getBlogInfo();
         this.phone = profile.getPhone();
-        this.profileImageUrl = profile.getUser().getProfileImageUrl();
-        this.username = profile.getUser().getUsername();
     }
-
 }
