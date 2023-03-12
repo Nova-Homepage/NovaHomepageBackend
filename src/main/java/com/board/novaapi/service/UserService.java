@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -39,8 +41,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserProfile> getAllUserProfile(Pageable pageable){
-        return userProfileRepository.findAll(pageable);
+    public List<UserProfile> getAllUserProfile(){
+        return userProfileRepository.findAll();
     }
 
     /***

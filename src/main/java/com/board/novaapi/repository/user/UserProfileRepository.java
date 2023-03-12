@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
 
 
-    Page<UserProfile> findAll(Pageable pageable);
+    List<UserProfile> findAll();
 
     @Modifying(clearAutomatically = true)
     @Query(value =

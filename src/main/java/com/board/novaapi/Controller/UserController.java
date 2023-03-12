@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -59,8 +61,8 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/profile/all")
-    public Page<UserProfileDto> getAllUserProfile(Pageable pageable){
-        return userService.getAllUserProfile(pageable).map(UserProfileDto::new);
+    public ApiResponse getAllUserProfile(){
+        return ApiResponse.success("userProfile",userService.getAllUserProfile().stream().map(UserProfileDto::new));
     }
     /**
      * user profile 수정
