@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class AuthService {
      *
      */
     @Transactional(readOnly = true)
-    public Page<User> getAllMemberInfo(Pageable pageable){
-        return userRepository.findAll(pageable);
+    public List<User> getAllMemberInfo(){
+        return userRepository.findAll();
     }
 
     /***
