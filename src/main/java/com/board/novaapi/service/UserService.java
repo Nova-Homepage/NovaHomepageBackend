@@ -30,16 +30,19 @@ public class UserService {
     // UserProfileRepository start
 
     /***
-     * UserProfile을 가져오기 위한 함수
+     * 한명의 UserProfile을 가져오는 함수
      * @param userId
      * @return
      */
     @Transactional(readOnly = true)
     public UserProfile getOneUserProfile(String userId){
-
         return userRepository.findByUserId(userId).getUserProfile();
     }
 
+    /***
+     * 모든 사용자의 프로필을 가져오는 함수
+     * @return
+     */
     @Transactional(readOnly = true)
     public List<UserProfile> getAllUserProfile(){
         return userProfileRepository.findAll();

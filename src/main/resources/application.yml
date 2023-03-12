@@ -16,7 +16,7 @@ spring:
     allow-circular-references: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.17.0.2:3306/novadb?allowedPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/novadb?allowedPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: root
 
@@ -24,7 +24,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
@@ -34,17 +34,17 @@ spring:
       client:
         registration:
           google:
-            clientId:
-            clientSecret:
-            redirectUri:
+            clientId: 252430250231-hh9kopaiimqivoiue5de0ss1r0m86d42.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/oauth2/callback/google
             scope:
               - email
               - profile
 
           github:
-            clientId:
-            clientSecret:
-            redirectUri:
+            clientId: aea23f344b667a453618
+            clientSecret: 810d44018963b779fa17bda7f22b4503fffde698
+            redirectUri: http://localhost:8081/oauth2/callback/github
             scope:
               - user:email
               - read:user
@@ -57,12 +57,12 @@ cors:
   max-age: 3600
 
 # jwt secret key ??
-jwt.secret:
+jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
 
 # ?? ?? secret Key ? RedirectUri ??
 app:
   auth:
-    tokenSecret:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
