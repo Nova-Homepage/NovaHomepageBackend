@@ -35,19 +35,4 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
         return (String) attributes.get("avatar_url");
     }
 
-    /*
-    @Override
-    public String getImageUrl() {
-        if(attributes.containsKey("picture")) {
-            Map<String, Object> pictureObj = (Map<String, Object>) attributes.get("picture");
-            if(pictureObj.containsKey("data")) {
-                Map<String, Object>  dataObj = (Map<String, Object>) pictureObj.get("data");
-                if(dataObj.containsKey("url")) {
-                    return (String) dataObj.get("url");
-                }
-            }
-        }
-        return null;
-    }
-    */
 }
