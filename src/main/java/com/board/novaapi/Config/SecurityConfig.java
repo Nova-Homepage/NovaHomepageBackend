@@ -147,7 +147,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger/**").permitAll()
                 .antMatchers("/info/user").hasAnyAuthority(RoleType.USER.getCode(),RoleType.ADMIN.getCode())
                 .antMatchers( "/auth/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
-                .antMatchers( "/board/**","/comment/**","/file/**","/reply/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+                .antMatchers( "/board/**","/comment/**","/file/**","/reply/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and()

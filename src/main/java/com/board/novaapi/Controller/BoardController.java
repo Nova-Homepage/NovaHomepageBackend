@@ -46,7 +46,7 @@ public class BoardController {
             fileService.uploadfile(files,save);
 
         }
-        return "게시글 생성";
+        return "success";
     }
 
     //글목록
