@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -134,21 +135,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
+                .accessDeniedHandler(tokenAccessDeniedHandler);
+
+        http
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/oauth2/**",
-                        "/v2/api-docs",
+                        "/v2/api-docs/**",
                         "/info/**",
                         "/swagger-ui.html",
+                        "/swagger-ui.html/**",
                         "/swagger-resources/**",
                         "/swagger-ui/index.html",
                         "/swagger-ui.html/",
                         "/webjars/**",
                         "/swagger/**").permitAll()
+                .antMatchers("/oauth2/**",
+                        "/info/**",
+                        "/auth/refresh",
+                        "/board/**",
+                        "/comment/**",
+                        "/file/**",
+                        "/reply/**",
+                        "/user/**").permitAll()
+                .antMatchers( "/auth/*").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+                //.anyRequest().authenticated()
                 .antMatchers("/info/user").hasAnyAuthority(RoleType.USER.getCode(),RoleType.ADMIN.getCode())
-                .antMatchers( "/auth/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
+//                .antMatchers( "/auth/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
                 .antMatchers( "/board/**","/comment/**","/file/**","/reply/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
