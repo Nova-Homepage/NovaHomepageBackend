@@ -36,15 +36,18 @@ public class BoardController {
     private final CommentService commentService;
     @PostMapping(value = "/save" , consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
     public String createPost(@RequestPart BoardDto boardDto, @RequestPart(value = "files",required = false) List<MultipartFile> files) throws IOException {
-        if(files.isEmpty()) //null인데 왜자꾸 다른데  들어가는거냐
-        { //파일이 없을대
-            boardService.save(boardDto);
-        }
-        else {
+        int existfile=1;
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) {
+                    //파일이 없을대
+                    existfile = 0;
+                    boardService.save(boardDto);
+                }
+            }
+        if(existfile==1){
             //첨부파일이 있을때
             BoardEntity save = boardService.save(boardDto);
             fileService.uploadfile(files,save);
-
         }
         return "success";
     }
