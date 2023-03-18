@@ -15,7 +15,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserId(String userId);
 
-    Page<User> findAll(Pageable pageable);
+    List<User> findAll();
 
     @Query(value =
             "select COUNT(user.userId)>0 "+
@@ -35,5 +35,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "select user.roleType "+
                     "from User user "+
                     "where user.userId = :userId")
-    String getMemberRoleTypeByUserId(String userId);
+    String getRoleTypeByUserId(String userId);
 }

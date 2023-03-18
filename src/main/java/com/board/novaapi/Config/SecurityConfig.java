@@ -129,6 +129,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
+                .logout().logoutSuccessUrl("/oauth2/logout")
+                .and()
                 .httpBasic().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
@@ -142,13 +144,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/swagger-resources/**",
                         "/swagger-ui/index.html",
-                        "/swagger-ui.html",
+                        "/swagger-ui.html/",
                         "/webjars/**",
                         "/swagger/**").permitAll()
                 .antMatchers("/info/user").hasAnyAuthority(RoleType.USER.getCode(),RoleType.ADMIN.getCode())
                 .antMatchers( "/auth/**").hasAnyAuthority(RoleType.GUEST.getCode(),RoleType.USER.getCode(),RoleType.ADMIN.getCode())
                 .antMatchers( "/board/**","/comment/**","/file/**","/reply/**").permitAll()
-
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

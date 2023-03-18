@@ -70,6 +70,10 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "userProfileSeq")
+    private UserProfile userProfile;
+
     public User(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 100) String username,

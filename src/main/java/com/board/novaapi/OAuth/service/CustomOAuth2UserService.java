@@ -7,6 +7,7 @@ import com.board.novaapi.OAuth.Exceptions.OAuthProviderMissMatchException;
 import com.board.novaapi.OAuth.OAuth2UserInfo;
 import com.board.novaapi.OAuth.OAuth2UserInfoFactory;
 import com.board.novaapi.entity.user.User;
+import com.board.novaapi.entity.user.UserProfile;
 import com.board.novaapi.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -46,13 +47,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User savedUser = userRepository.findByUserId(userInfo.getId());
 
         if (savedUser != null) {
+
             if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
                         "이미 등록된 회원입니다. " + providerType +
                                 savedUser.getProviderType() + " 계정으로 로그인 해주세요 "
                 );
             }
-            // 기존에 등록되어 있는 경우 update 실행
+            /**
+             * 기존에 등록된 회원의 경우 프로필 이미지와 이름만 갱신
+             */
             System.out.println("update 진행중");
             updateUser(savedUser, userInfo);
         } else {
@@ -61,11 +65,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             savedUser = createUser(userInfo, providerType);
         }
 
-        return UserPrincipal.create(savedUser, userRepository.getMemberRoleTypeByUserId(userInfo.getId()), user.getAttributes());
+        return UserPrincipal.create(savedUser, userRepository.getRoleTypeByUserId(userInfo.getId()), user.getAttributes());
     }
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
+
+        UserProfile profile = new UserProfile(
+                null,
+                null,
+                null,
+                null
+        );
+        System.out.println("프로필");
+
+        System.out.println(profile);
         User user = new User(
                 userInfo.getId(),
                 userInfo.getName(),
@@ -77,8 +91,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 now,
                 now
         );
-
-        return userRepository.saveAndFlush(user);
+        user.setUserProfile(profile);
+        return userRepository.save(user);
     }
 
     //user update 를 통해서 update 뿐 아니라 최근 접속일 도 확인 할 수 있음

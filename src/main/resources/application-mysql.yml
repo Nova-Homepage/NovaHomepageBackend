@@ -1,0 +1,64 @@
+
+spring:
+  config:
+    activate:
+      on-profile: mysql  # mysql 사용하고싶으면 이 이름 바꾸면 됩니다.
+
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.17.0.2:3306/novadb?allowedPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: root
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId:
+            clientSecret:
+            redirectUri:
+            scope:
+              - email
+              - profile
+
+          github:
+            clientId:
+            clientSecret:
+            redirectUri:
+            scope:
+              - user:email
+              - read:user
+
+# cors ??
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+
+# jwt secret key ??
+jwt.secret:
+
+# ?? ?? secret Key ? RedirectUri ??
+app:
+  auth:
+    tokenSecret:
+    tokenExpiry: 1800000
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+server:
+  port: 8081

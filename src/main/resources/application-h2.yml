@@ -1,0 +1,59 @@
+spring:
+  config:
+    activate:
+      on-profile: h2
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/Nova
+    username: sa
+    password:
+    dirver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 252430250231-hh9kopaiimqivoiue5de0ss1r0m86d42.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://ec2-52-79-189-183.ap-northeast-2.compute.amazonaws.com:8081/oauth2/callback/google
+            scope:
+              - email
+              - profile
+
+          github:
+            clientId: aea23f344b667a453618
+            clientSecret: 810d44018963b779fa17bda7f22b4503fffde698
+            redirectUri: http://localhost:8081/oauth2/callback/github
+            scope:
+              - user:email
+              - read:user
+
+# cors ??
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+
+# jwt secret key ??
+jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+
+# ?? ?? secret Key ? RedirectUri ??
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpiry: 1800000
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+server:
+  port: 8081
